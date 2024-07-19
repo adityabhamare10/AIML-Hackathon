@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Information of Aplicant</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div class="max-w-7xl mx-auto p-6 sm:px-6 lg:px-8">
+      <div class="bg-white shadow-xl sm:rounded-lg">
+        <div class="px-4 py-5 sm:p-6">
+          <h1 class="text-2xl font-bold mb-6">Information of Aplicant</h1>
+          <p class="mb-6">
+            Please Fill in the details to get your chances of Loan Approval.
+          </p>
+
+          <% if (typeof error !== 'undefined' && error.length > 0) { %>
+          <div
+            class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6"
+          >
+            <strong class="font-bold">Error:</strong>
+            <span class="block sm:inline"><%= error %></span>
+          </div>
+          <% } %>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700"
+                >Name</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label for="age" class="block text-sm font-medium text-gray-700"
+                >Age</label
+              >
+              <input
+                type="number"
+                id="age"
+                name="age"
+                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="income"
+                class="block text-sm font-medium text-gray-700"
+                >Income (Yearly)</label
+              >
+              <input
+                type="number"
+                id="income"
+                name="income"
+                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label for="home" class="block text-sm font-medium text-gray-700"
+                >Home</label
+              >
+              <select
+                id="home"
+                name="home"
+                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              >
+                <option value="">Select</option>
+                <option value="rent">Rent</option>
+                <option value="own">Own</option>
+                <option value="mortgage">Mortgage</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="employmentLength"
+                class="block text-sm font-medium text-gray-700"
+                >Employment Length</label
+              >
+              <input
+                type="number"
+                id="employmentLength"
+                name="employmentLength"
+                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="intent"
+                class="block text-sm font-medium text-gray-700"
+                >Intent</label
+              >
+              <select
+                id="intent"
+                name="intent"
+                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              >
+                <option value="">Select</option>
+                <option value="DEBTCONSOLIDATION">Debt Consolidation</option>
+                <option value="EDUCATION">Education</option>
+                <option value="HOMEIMPROVEMENT">Home Improvement</option>
+                <option value="MEDICAL">Medical</option>
+                <option value="PERSONAL">Personal</option>
+                <option value="VENTURE">Venture</option>
+              </select>
+            </div>
+            <div>
+              <label
+                for="loanAmount"
+                class="block text-sm font-medium text-gray-700"
+                >Loan Amount</label
+              >
+              <input
+                type="number"
+                id="loanAmount"
+                name="loanAmount"
+                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="interestRate"
+                class="block text-sm font-medium text-gray-700"
+                >Interest Rate</label
+              >
+              <input
+                type="number"
+                id="interestRate"
+                name="interestRate"
+                class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                required
+              />
+            </div>
+          </div>
+          <div class="mt-6">
+            <button
+              id="submit"
+              type="submit"
+              class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+            >
+              Make Prediction
+            </button>
+          </div>
+        </div>
+        <center><p id="result">Result:</p></center>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("submit")
+        .addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent the default form submission
+
+          // Gather form data
+          const formData = {
+            name: document.getElementById("name").value,
+            age: document.getElementById("age").value,
+            income: document.getElementById("income").value,
+            home: document.getElementById("home").value,
+            employmentLength: document.getElementById("employmentLength").value,
+            intent: document.getElementById("intent").value,
+            loanAmount: document.getElementById("loanAmount").value,
+            interestRate: document.getElementById("interestRate").value,
+          };
+
+          // Send the form data to the external server
+          fetch("http://192.168.43.195:5000/predict-model", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Response from server:", data);
+
+              // Extract the prediction field from the response
+              const prediction = data.prediction || "No prediction received";
+
+              // Update the result paragraph with the prediction
+              document.getElementById(
+                "result"
+              ).textContent = `Result: ${prediction}`;
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              document.getElementById(
+                "result"
+              ).textContent = `Error: ${error.message}`;
+            });
+        });
+    </script>
+  </body>
+</html>
