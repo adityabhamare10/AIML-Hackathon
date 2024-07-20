@@ -126,3 +126,44 @@ model.fit(X_train, Y_train)
 # Save the model
 joblib.dump(model, 'prediction_model.pkl')
 ```
+# API Endpoints
+## POST /predict-model
+**Description:** Receives applicant data and returns the prediction and probability.
+**Request Body:** JSON object containing applicant features.
+
+```json
+{
+    "age": 30,
+    "income": 50000,
+    "loanAmount": 20000,
+    "creditScore": 700,
+    "monthsEmployed": 36,
+    "numCreditLines": 5,
+    "interestRate": 5,
+    "loanTerm": 60,
+    "dtiRatio": 0.4,
+    "education": 1,
+    "employmentType": 3,
+    "maritalStatus": 0,
+    "hasMortgage": 1,
+    "hasDependents": 0,
+    "loanPurpose": 1,
+    "hasCoSigner": 0
+}
+{
+    "prediction": "Approved",
+    "probability": 0.85
+}
+
+```
+
+# Technologies Used
+* Frontend: Streamlit
+* Backend: Flask
+* Machine Learning: scikit-learn, joblib
+* Data Processing: pandas, numpy
+
+# Contributing
+Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your code adheres to the project's coding standards and includes appropriate tests.
+
+
