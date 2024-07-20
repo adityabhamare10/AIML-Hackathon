@@ -21,7 +21,7 @@ document.getElementById('submit').addEventListener('click', function(event) {
         hasCoSigner:  parseInt(document.getElementById('hasCoSigner').value),
     };
 
-    fetch('http://192.168.43.195:5000/predict-model', {
+    fetch('<global-serverlink>/predict-model', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
