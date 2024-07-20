@@ -50,7 +50,7 @@ app.post("/predict-model", (req, res) => {
   console.log(JSON.stringify(loan));
 
   // Forward the data to the external server
-  fetch('http://192.168.43.195:5000/predict-model', {
+  fetch('<global-serverlink>/predict-model', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
