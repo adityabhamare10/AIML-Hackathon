@@ -72,7 +72,7 @@ def main():
 
         with st.spinner('Calculating...'):
             # Send data to the Flask server
-            response = requests.post("http://127.0.0.1:5000/predict-model", json=data)
+            response = requests.post("<global-serverlink>/predict-model", json=data)
             result = response.json()
 
         # Display the prediction and probability
