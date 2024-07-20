@@ -1,4 +1,4 @@
-# Smart Credit Risk Evolution
+# TrustFinance  
 
 Smart Credit Risk Evolution is a web application that evaluates the credit risk of loan applicants. Using a machine learning model, it predicts whether a loan application should be approved and provides the probability of approval based on various applicant details.
 
